@@ -17,5 +17,13 @@ public class UserService {
 	public List<User> findAll(){
 		return repo.findAll();
 	}
+	
+	public void salveAll(List<User> users) {
+		repo.saveAll(users);
+	}
+	
+	public void deleteAll() {
+		repo.deleteAll();
+	}
 
 }
