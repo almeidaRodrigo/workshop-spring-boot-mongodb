@@ -16,6 +16,12 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository repo;
+	
+	private void updateData(Optional<User> userFound, User updatedObj) {
+		User user = userFound.get();
+		user.setName(updatedObj.getName());
+		user.setEmail(updatedObj.getEmail());	
+	}
 
 	public List<User> findAll(){
 		return repo.findAll();
@@ -32,6 +38,13 @@ public class UserService {
 	
 	public User insert(User user) {
 		return repo.insert(user);
+	}
+	
+	public User update(User updatedObj) {
+		Optional<User> newObj = repo.findById(updatedObj.getId());
+		newObj.orElseThrow(() -> new ObjectNotFoundException("Objeto não localizado"));
+		updateData(newObj, updatedObj);
+		return repo.save(newObj.get());
 	}
 	
 	public void deleteAll() {
