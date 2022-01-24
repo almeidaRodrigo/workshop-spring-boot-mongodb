@@ -20,7 +20,8 @@ public class UserService {
 	private void updateData(Optional<User> userFound, User updatedObj) {
 		User user = userFound.get();
 		user.setName(updatedObj.getName());
-		user.setEmail(updatedObj.getEmail());	
+		user.setEmail(updatedObj.getEmail());
+		user.setPosts(updatedObj.getPosts());
 	}
 
 	public List<User> findAll(){

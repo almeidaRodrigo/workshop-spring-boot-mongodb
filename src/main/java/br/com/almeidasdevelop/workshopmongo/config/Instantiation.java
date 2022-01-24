@@ -39,6 +39,9 @@ public class Instantiation implements CommandLineRunner {
 		
 		postService.insertAll(Arrays.asList(post1, post2));
 		
+		maria.getPosts().addAll(Arrays.asList(post1,post2));
+		userService.update(maria);
+		
 	}
 
 }
