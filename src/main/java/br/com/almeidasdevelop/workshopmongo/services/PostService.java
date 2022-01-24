@@ -21,6 +21,10 @@ public class PostService {
 		return findById.orElseThrow(() -> new ObjectNotFoundException("Objeto não localizado"));
 	}
 	
+	public List<Post> findByTitle(String title) {
+		return repo.findByTitleContainingIgnoreCase(title);
+	}
+	
 	public List<Post> insertAll(List<Post> posts) {
 		return repo.insert(posts);
 	}
