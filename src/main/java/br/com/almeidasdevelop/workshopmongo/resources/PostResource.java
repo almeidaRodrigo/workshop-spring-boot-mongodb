@@ -1,5 +1,6 @@
 package br.com.almeidasdevelop.workshopmongo.resources;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,30 @@ public class PostResource {
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Post> findById(@PathVariable String id){
-		return ResponseEntity.ok(service.findById(id));
+		Post postFound = service.findById(id);
+		
+		return ResponseEntity.ok(postFound);
 	}
 	
 	@GetMapping(value = "/titlesearch")
 	public ResponseEntity<List<Post>> findByTitle(@RequestParam(value = "title", defaultValue = "") String title){
-		return ResponseEntity.ok(service.findByTitle(URL.decodeParam(title)));
+		String decodedTitle = URL.decodeParam(title);
+		List<Post> postsFound = service.findByTitle(decodedTitle);
+		
+		return ResponseEntity.ok(postsFound);
+	}
+	
+	@GetMapping(value = "/fullsearch")
+	public ResponseEntity<List<Post>> fullSearch(
+			@RequestParam(value = "title", defaultValue = "") String title, 
+			@RequestParam(value = "minDate", defaultValue = "") String minDate, 
+			@RequestParam(value = "maxDate", defaultValue = "") String maxDate){
+		String decodedTitle = URL.decodeParam(title);
+		LocalDate decodedMinDate = URL.convertDate(minDate, LocalDate.now().minusDays(1));
+		LocalDate decodedMaxDate = URL.convertDate(maxDate, LocalDate.now().plusDays(1));
+		List<Post> postsFound = service.fullSearch(decodedTitle, decodedMinDate, decodedMaxDate);
+		
+		return ResponseEntity.ok(postsFound);
 	}
 
 }
